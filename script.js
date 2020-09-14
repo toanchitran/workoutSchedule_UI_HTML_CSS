@@ -385,11 +385,11 @@ function updateCalendar(day) {
 };
 
 function updateDays() {
-    $.(".js-day-count").text($(".js-day").length);
+    $(".js-day-count").text($(".js-day").length);
 }
 
 function checkNextDay() {
-    var dayAfter = $(".js-day[[data-status]="false"]".first());
+    var dayAfter = $('.js-day[[data-status]="false"]'.first());
 
     if ($('.js-day[data-status="false"]').length == 0) {
 		$('.rest-day, .workout-day').css('display', 'none');
