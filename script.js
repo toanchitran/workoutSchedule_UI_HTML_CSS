@@ -295,103 +295,103 @@ var schedule = [
 	},
 ];
 
-$(document).ready(function(){
-    generateCalendar();
-    setStatus();
+$(document).ready(function () {
+	generateCalendar();
+	setStatus();
 });
 
 function generateCalendar() {
-    var scheduleList = $(".js-schedule-list");
+	var scheduleList = $(".js-schedule-list");
 
-    $.each(schedule, function(key, value){
-        var day = value.day;
-        var videos = value.videos;
-        var status = value.status;
-        if (videos.length == 0) {
-            var restHTML =
-            "<div class='js-day' data-status='false'><div class='workout__rest'>REST</div></div>";
-            scheduleList.append(restHTML);
-        } else if (videos.length > 0){
-            var allVideos = "";
-            var grammar = (videos.length === 1)? 'video':'videos';
-
-            $.map(videos, function(key, value){
-                var videoHTML = 
-                '<a href="' + key.link + '" target = "_blank">' + '<img src="https://s3-us-west-2-amazonaws.com/s.cdn.io/567707"'+ key.image + 'alt="Workout Video Image"/></a>';
-                allVideos = allVideos + videoHTML
-            });
-
-            var workHTML =
+	$.each(schedule, function (key, value) {
+		var day = value.day;
+		var videos = value.videos;
+		var status = value.status;
+		if (videos.length == 0) {
+			var restHTML =
+				"<div class='js-day' data-status='false'><div class='workout__rest'>REST</div></div>";
+			scheduleList.append(restHTML);
+		} else if (videos.length > 0) {
+			
+			var allVideos = "";
+			var grammar = (videos.length === 1) ? 'video' :'videos';
+			
+			$.map(videos, function (key, value) {
+				var videoHTML = '<a href="' + key.link + '" target="_blank">'+ '<img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/567707/' + key.image + '" alt="Workout Video Image"/></a>';
+				allVideos = allVideos + videoHTML;
+			});
+			
+			var workHTML =
 				"<div class='js-day' data-status='false'><div class='workout__info'>" +
 				videos.length + ' ' + grammar + 
 				"</div><div class='workout__links'>"+ allVideos + "</div></div>";
 			
 			scheduleList.append(workHTML);
-        };
-    });
-};
-
-function setStatus() {
-    $(".js-did-workout").on("click", function() {
-        var currentDay = $(".js-schedule-list").find(
-            '.js-day[data-status = "false"]:first'
-        );
-        currentDay.attr("data-status", "success");
-        schedule.shift();
-        checkNextDay();
-    });
-
-    $(".js-no-workout").on("click", function() {
-        var currentDay = $(".js-schedule-list").find(
-            '.js-day[data-status = "false"]:first'
-        );
-        currentDay.attr("data-status", "failed")
-        var originalDay = currentDay.data("day")
-        updateCalendar(originalDay);
-        updateDays();
-        checkNextDay()
-    });
-};
-
-function updateCalendar(day) {
-    var scheduleList = $(".js-schedule-list");
-    scheduleList.append('<div class="js-day" data-status="false"></div>');
-
-    $.each(schedule, function(key, value) {
-        var day = value.day;
-        var video = value.videos;
-
-        var daysDiv = $('[data-status="false"]').eq(key);
-
-        if (videos.length == 0) {
-            $(daysDiv).html('<div class="workout__rest">REST</div></div>');
-        }
-
-        else if (videos.length > 0) {
-            var allVideos = ""
-            var grammar = (videos.length === 1) ? 'videos':'videos';
-            
-            $.map(videos, function(key, value) {
-                var videoHTML = '<a href="' + key.link + '" target="_blank"' + '<img src="https://s3.us-west-2-amazonaws.com/s.cdpn.io/567707/' + key.image + '" alt="Workout Video Image"/></a>';
-                allVideos = allVideos + videoHTML
-            });
-
-            $(daysDiv).html('<div class="workout__info">'+
-                videos.length + ' ' + grammar +
-                '</div> <div class="workout__links">' + allVideos + '</div>'
-            );
-        };
-    });
-};
-
-function updateDays() {
-    $(".js-day-count").text($(".js-day").length);
+			
+		}
+	});
 }
 
-function checkNextDay() {
-    var dayAfter = $('.js-day[[data-status]="false"]'.first());
+function setStatus() {
+	$(".js-did-workout").on("click", function () {
+		var currentDay = $(".js-schedule-list").find(
+			'.js-day[data-status="false"]:first'
+		);
+		currentDay.attr("data-status", "success");
+		schedule.shift();
+		checkNextDay();
+	});
 
-    if ($('.js-day[data-status="false"]').length == 0) {
+	$(".js-no-workout").on("click", function () {
+		var currentDay = $(".js-schedule-list").find(
+			'.js-day[data-status="false"]:first'
+		);
+		currentDay.attr("data-status", "failed");
+		var originalDay = currentDay.data("day");
+		updateCalendar(originalDay);
+		updateDays();
+		checkNextDay();
+	});
+}
+
+function updateCalendar(day) {
+	var scheduleList = $(".js-schedule-list");
+	scheduleList.append('<div class="js-day" data-status="false"></div>');
+
+	$.each(schedule, function (key, value) {
+		var day = value.day;
+		var videos = value.videos;
+		
+		var daysDiv = $('[data-status="false"]').eq(key);
+		
+		if (videos.length == 0) {
+			$(daysDiv).html("<div class='workout__rest'>REST</div></div>");
+		} else if (videos.length > 0) {
+			
+			var allVideos = "";
+			var grammar = (videos.length === 1) ? 'video':'videos';
+			
+			$.map(videos, function (key, value) {
+				var videoHTML = '<a href="' + key.link + '" target="_blank">'+ '<img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/567707/' + key.image + '" alt="Workout Video Image"/></a>';
+				allVideos = allVideos + videoHTML;
+			});
+			
+			$(daysDiv).html("<div class='workout__info'>" +
+				videos.length + ' ' + grammar +
+				"</div><div class='workout__links'>" + allVideos + "</div>");
+		}
+	});
+}
+
+function updateDays() {
+	$(".js-day-count").text($(".js-day").length);
+}
+
+
+function checkNextDay() {
+	var dayAfter =  $('.js-day[data-status="false"]').first();
+	
+	if ($('.js-day[data-status="false"]').length == 0) {
 		$('.rest-day, .workout-day').css('display', 'none');
 		$('.amazing-day').css('display','flex'); 
 	} else if ($('.workout__rest', dayAfter).length) {
